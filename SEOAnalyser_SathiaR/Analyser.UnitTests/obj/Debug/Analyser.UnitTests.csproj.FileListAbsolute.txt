@@ -1,0 +1,2 @@
+C:\Users\Rusty\Desktop\Sathia\Arvato system\SEOAnalyser_Sathia\TestProject\SEOAnalyser_SathiaR\Analyser.UnitTests\obj\Debug\Analyser.UnitTests.csprojAssemblyReference.cache
+C:\Users\Rusty\Desktop\Sathia\Arvato system\SEOAnalyser_Sathia\TestProject\SEOAnalyser_SathiaR\Analyser.UnitTests\obj\Debug\Analyser.UnitTests.csproj.CoreCompileInputs.cache

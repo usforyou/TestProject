@@ -10,16 +10,20 @@ namespace WebClient
 {
     public partial class Index : System.Web.UI.Page
     {
+        bool isUrlPassed;
         protected void Page_Load(object sender, EventArgs e)
         {
-            labelErrorText.Text = "";
-            textUrlOrText.BorderColor = Color.Empty;
-            using (StreamReader stream = new StreamReader(Path.Combine(Server.MapPath("~"),
-                    @"util\WordsToIgnore.txt")))
+            if (!IsPostBack)
             {
-                textStopWords.Text = stream.ReadToEnd();
+                labelErrorText.Text = "";
+                txtWords.BorderColor = Color.Empty;
+                using (StreamReader stream = new StreamReader(Path.Combine(Server.MapPath("~"),
+                        @"util\WordsToIgnore.txt")))
+                {
+                    textStopWords.Text = stream.ReadToEnd();
+                }
+                tblStopWords.Visible = false;
             }
-            tblStopWords.Visible = false;
         }
 
         private void createDataGrid(GridView v, Dictionary<string, int> dic, string gridName)
@@ -66,15 +70,9 @@ namespace WebClient
 
         private delegate Dictionary<string, int> GetDicDelegate();
 
-        private void analyzeDic(bool analyseData, GridView resultsGrid, GetDicDelegate del_GetDictionary, string gridName)
+        private void analyseWords(GridView resultsGrid, GetDicDelegate del_GetDictionary, string gridName)
         {
-            if (analyseData)
-                createDataGrid(resultsGrid, del_GetDictionary(), gridName);
-            else
-            {
-                resultsGrid.DataSource = null;
-                resultsGrid.DataBind();
-            }
+            createDataGrid(resultsGrid, del_GetDictionary(), gridName);
         }
 
         protected void toggleEdit_Click(object sender, EventArgs e)
@@ -86,30 +84,38 @@ namespace WebClient
         {
             try
             {
-                var counter = new util.Analyser(textUrlOrText.Text, radioAnalyzeUrl.Checked,
-                    textStopWords.Text);
-                analyzeDic(checkBoxCalculateWordsOnPage.Checked, gridViewWords, counter.GetWordsDictionary, "wordsTable");
-                analyzeDic(checkBoxCalculateKeywordsOnPage.Checked, gridViewKeywords, counter.GetKeywordsDictionary,
-                    "keywordsTable");
+                isUrlPassed = (txtWords.Rows == 1) ? true : false;
+                var counter = new util.Analyser(txtWords.Text, isUrlPassed, textStopWords.Text);
+                analyseWords(gridViewWords, counter.GetWordsDictionary, "wordsTable");
+                analyseWords(gridViewKeywords, counter.GetKeywordsDictionary, "keywordsTable");
 
-                if (checkBoxCalculateExternalLinks.Checked)
-                    labelExternalLinkNumber.Text = String.Format("Number of external links: {0}",
-                        counter.GetExternalLinksNumber());
-                else
-                    labelExternalLinkNumber.Text = "";
+                labelExternalLinkNumber.Text = String.Format("Number of external links: {0}", counter.GetExternalLinksNumber());
             }
             catch (UriFormatException)
             {
                 labelErrorText.Text = "Incompatible url format";
-                textUrlOrText.BorderColor = Color.Red;
+                txtWords.BorderColor = Color.Red;
             }
             catch (WebException ex)
             {
                 labelErrorText.Text = ex.Message;
-                textUrlOrText.BorderColor = Color.Red;
+                txtWords.BorderColor = Color.Red;
             }
         }
 
+        protected void TextAnalyser_Click(object sender, EventArgs e)
+        {
+            txtWords.Text = "Input your text here to analyse text";
+            txtWords.Rows = 20;
+            isUrlPassed = false;
+        }
+
+        protected void UrlAnalyser_Click(object sender, EventArgs e)
+        {
+            txtWords.Text = "http://www.google.com";
+            txtWords.Rows = 1;
+            isUrlPassed = true;
+        }
         private string getSortDirection(string column)
         {
             string sortDirection = "ASC";

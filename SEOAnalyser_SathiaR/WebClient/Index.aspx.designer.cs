@@ -22,49 +22,22 @@ namespace WebClient {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// checkBoxCalculateWordsOnPage control.
+        /// btnTextAnalyser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkBoxCalculateWordsOnPage;
+        protected global::System.Web.UI.WebControls.LinkButton btnTextAnalyser;
         
         /// <summary>
-        /// checkBoxCalculateKeywordsOnPage control.
+        /// btnUrlAnalyser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkBoxCalculateKeywordsOnPage;
-        
-        /// <summary>
-        /// checkBoxCalculateExternalLinks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkBoxCalculateExternalLinks;
-        
-        /// <summary>
-        /// radioAnalyzeUrl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton radioAnalyzeUrl;
-        
-        /// <summary>
-        /// radioAnalyzeText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton radioAnalyzeText;
+        protected global::System.Web.UI.WebControls.LinkButton btnUrlAnalyser;
         
         /// <summary>
         /// labelErrorText control.
@@ -76,13 +49,13 @@ namespace WebClient {
         protected global::System.Web.UI.WebControls.Label labelErrorText;
         
         /// <summary>
-        /// textUrlOrText control.
+        /// txtWords control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textUrlOrText;
+        protected global::System.Web.UI.WebControls.TextBox txtWords;
         
         /// <summary>
         /// buttonAnalyze control.

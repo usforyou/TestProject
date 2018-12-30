@@ -6,30 +6,25 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-[assembly: InternalsVisibleTo("WordCounter.UnitTests")]
+[assembly: InternalsVisibleTo("Analyser.UnitTests")]
 
 namespace WebClient.util
 {
     public class Analyser
     {
 
-        //private readonly char[] _wordsSeparator;
         private readonly HtmlNode _rootNode;
         private readonly char[] _delimiterList = { ' ', ',', '.', '\r', '\n', '\t', '/' };
 
         private Dictionary<string, int> _wordsDictionary;
         private Dictionary<string, int> _keywordsDictionary;
-        //Dictionary due framework 2.0 requirement, Hashset<string> will be better )
         private readonly Dictionary<string, int> _stopWordsDictionary;
         private int _extLinksNumber = -1;
 
-        /// <summary>
-        /// Create words counter 
-        /// </summary>
-        /// <param name="pageUrlOrText"></param>
-        /// <param name="isUrl">Is in pageUrlOrText set url or some text</param>
-        /// <param name="wordsToIgnore">User's stop words</param>
-        /// <param name="wordsSeparator">User's word separators</param>
+        public Analyser()
+        {
+
+        }
         public Analyser(string pageUrlOrText, bool isUrl, string wordsToIgnore = null, char[] _delimiters = null)
         {
             if (_delimiters != null)
@@ -152,14 +147,14 @@ namespace WebClient.util
                 if (String.Compare(node.ParentNode.Name, "script", true, CultureInfo.InvariantCulture) != 0) //ignore inner text in <script>abcabc</script>
                 {
                     string s = node.InnerText;
-                    if (!IsCDATA(s)) //ignore CDATA
-                    {
-                        s = ReplaceNotLetters(ReplaceSpecialCharacters(s)).Trim(); //clean text
+                    //if (!IsCDATA(s)) 
+                    //{
+                        s = ReplaceNotLetters(ReplaceSpecialCharacters(s)).Trim(); 
                         if (!String.IsNullOrEmpty(s))
                         {
                             SplitTextAndCount(s, dic, stopWordsDictionary, wordsSeparator, isCanAddNewKeys);
                         }
-                    }
+                    //}
                 }
             }
         }
@@ -187,7 +182,7 @@ namespace WebClient.util
             return null;
         }
 
-        internal static void SplitTextAndCount(string s, Dictionary<string, int> dic, Dictionary<string, int> wordsToIgnore,
+        public static void SplitTextAndCount(string s, Dictionary<string, int> dic, Dictionary<string, int> wordsToIgnore,
             char[] delimiters, bool canAddNewKeys)
         {
             if (String.IsNullOrEmpty(s))
@@ -208,23 +203,22 @@ namespace WebClient.util
 
         }
 
-        // ReSharper disable once InconsistentNaming
-        internal static bool IsCDATA(string s)
-        {
-            if (s.Length >= 10)
-            {
-                if (s.Substring(0, 10).ToLower().Contains("[cdata"))
-                    return true;
-            }
-            return false;
-        }
+        //public static bool IsCDATA(string s)
+        //{
+        //    if (s.Length >= 10)
+        //    {
+        //        if (s.Substring(0, 10).ToLower().Contains("[cdata"))
+        //            return true;
+        //    }
+        //    return false;
+        //}
 
-        internal static string ReplaceSpecialCharacters(string s)
+        public static string ReplaceSpecialCharacters(string s)
         {
             return Regex.Replace(s, @"&[^\s;]+;", " ");
         }
 
-        internal static string ReplaceNotLetters(string s)
+        public static string ReplaceNotLetters(string s)
         {
             return Regex.Replace(s, @"[^a-zA-Z]+", " ");
         }
